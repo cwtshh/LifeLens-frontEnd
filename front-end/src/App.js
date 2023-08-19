@@ -6,6 +6,9 @@ import Home from './pages/Home/Home';
 import Register from './pages/Auth/Register';
 import Login from './pages/Auth/Login';
 
+// hooks
+import { useAuth } from './hooks/useAuth';
+
 // router
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
@@ -14,6 +17,12 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 
 function App() {
+  const { auth, loading } = useAuth();
+
+  if(loading) {
+    return <p>Carregando...</p>
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -21,9 +30,9 @@ function App() {
 
         <div className='container'>
           <Routes>
-            <Route path="/" element={ <Home /> } />
-            <Route path='/login' element={ <Login /> } />
-            <Route path='/register' element={ <Register /> } />
+            <Route path="/" element={ auth ? <Home /> : <Navigate to='/login' />  } />
+            <Route path='/login' element={!auth ? <Login /> : <Navigate to='/register' /> } />
+            <Route path='/register' element={!auth ? <Register /> : <Navigate to='/' /> } />
           </Routes>
         </div>
 
