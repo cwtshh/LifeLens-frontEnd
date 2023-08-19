@@ -11,13 +11,12 @@ const initialState = {
 };
 
 // registrar usuario e logar
-export const register = createAsyncThunk('auth/register',
+export const register = createAsyncThunk("auth/register", 
     async(user, thunkAPI) => {
         const data = await authService.register(user);
 
-        // checa se deu erro
-        if(data.errors) {
-            return thunkAPI.rejectWithValue(data.errors[0]);
+        if(data.error) {
+            return thunkAPI.rejectWithValue(data.error);
         }
 
         return data;
@@ -25,7 +24,7 @@ export const register = createAsyncThunk('auth/register',
 );
 
 export const authSlice = createSlice({
-    nome: 'auth',
+    name: "auth",
     initialState,
     reducers: {
         reset: (state) => {
@@ -38,17 +37,20 @@ export const authSlice = createSlice({
         builder.addCase(register.pending, (state) => {
             state.loading = true;
             state.error = false;
-        });
-        builder.addCase(register.fulfilled, (state, action) => {
+        })
+        .addCase(register.fulfilled, (state, action) => {
             state.loading = false;
             state.success = true;
             state.error = null;
             state.user = action.payload;
-        });
-        builder.addCase(register.rejected, (state, action) => {
+        })
+        .addCase(register.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
             state.user = null;
-        });
+        })
     }
 });
+
+export const { reset } = authSlice.actions;
+export default authSlice.reducer;

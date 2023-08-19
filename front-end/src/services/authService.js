@@ -1,11 +1,11 @@
 import { api, requestConfig } from '../utils/config';
 
 // registrar um usuario
-const register = async(data) => {
-    const config = requestConfig("POST", data);
+const register = async(user) => {
+    const config = requestConfig("POST", user);
 
     try {
-        const res = await fetch(api + '/users/register', config)
+        const res = await fetch(api + "/users/register", config)
             .then((res) => res.json()
             .catch((err) => err));
 

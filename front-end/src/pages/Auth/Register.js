@@ -7,6 +7,11 @@ import { Link } from 'react-router-dom';
 
 // hooks
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
+// redux
+import { register, reset } from '../../slices/authSlice';
+
 
 
 const Register = () => {
@@ -15,6 +20,10 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassowrd] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+
+  const dispatch = useDispatch();
+
+  const { loading, error } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,7 +36,13 @@ const Register = () => {
     }
 
     console.log(user);
-  }
+    dispatch(register(user));
+  };
+
+  // limpa os authstates
+  useEffect(() => {
+    dispatch(reset());
+  }, [dispatch]);
 
   return (
     <div id='register'>
