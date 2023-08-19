@@ -3,6 +3,7 @@ import './Auth.css';
 
 // components
 import { Link } from 'react-router-dom';
+import Message from '../../components/Message';
 
 
 // hooks
@@ -55,7 +56,9 @@ const Register = () => {
         <input type='password' placeholder='Digite sua Senha' onChange={(e) => setPassowrd(e.target.value)} value={password || ""} />
         <input type='password' placeholder='Confirme sua Senha' onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword || ""} />
 
-        <input type='submit' value='Registrar' />
+        {!loading && <input type='submit' value='Registrar' />}
+        {loading && <input type='submit' value='Aguarde...' disabled />}
+        {error && <Message type='error' msg={error} />}
       </form>
 
       <p>Já tem conta?<Link to='/login'>Clique aqui para Logar.</Link></p>

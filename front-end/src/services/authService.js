@@ -6,14 +6,16 @@ const register = async(user) => {
 
     try {
         const res = await fetch(api + "/users/register", config)
-            .then((res) => res.json()
-            .catch((err) => err));
+            .then((res) => res.json())
+            .catch((err) => err);
 
         if(res) {
             localStorage.setItem("user", JSON.stringify(res));
         }
-    } catch (e) {
-        console.log(e);
+
+        return res;
+    } catch (error) {
+        console.log(error);
     }
 };
 
